@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {"name": "device_id"},
+            {"name": "device_name"},
+            {"name": "device_state"}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0],
+      "id": "404e3dde-ff33-4f74-a3bd-44ff9ee40f17",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "09ec158a-1525-4dee-9526-e91c68577e63",
+              "name": "tituloChamado",
+              "value": "=Alerta: Dispositivo Unifi Desconectado - {{ $('When Executed by Another Workflow').item.json.device_name }}",
+              "type": "string"
+            },
+            {
+              "id": "6e7f3ac9-a3dd-44ed-99f7-9b48942f0dc4",
+              "name": "descricaoChamado",
+              "value": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Alerta de Dispositivo Offline</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"color-scheme\" content=\"light dark\">\n  <meta name=\"supported-color-schemes\" content=\"light dark\">\n  <style>\n    :root { color-scheme: light dark; }\n    body { margin: 0; padding: 0; font-family: Arial, sans-serif; }\n    .email-container { max-width: 600px; margin: auto; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; }\n    .header { color: #c9302c; border-bottom: 2px solid #eeeeee; padding-bottom: 15px; margin-top: 0; }\n    .intro-text { font-size: 16px; color: #333333; }\n    .details-box { background-color: #ffffff; padding: 20px; border-radius: 5px; border: 1px solid #e0e0e0; margin-top: 20px; }\n    .details-list { list-style: none; padding: 0; margin: 0; font-size: 16px; color: #333333; }\n    .list-item { padding-bottom: 10px; }\n    .list-item-divider { padding-top: 10px; border-top: 1px solid #f0f0f0; }\n    .status-offline { color: #c9302c; font-weight: bold; }\n    @media (prefers-color-scheme: dark) {\n      .email-container { background-color: #121212 !important; border-color: #333333 !important; }\n      .header { color: #ff8a80 !important; border-bottom-color: #333333 !important; }\n      .intro-text, .details-list, .details-list strong { color: #e0e0e0 !important; }\n      .details-box { background-color: #1e1e1e !important; border-color: #333333 !important; }\n      .list-item-divider { border-top-color: #333333 !important; }\n      .status-offline { color: #ff8a80 !important; }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"email-container\">\n    <h2 class=\"header\">🚨 Alerta de Rede: Dispositivo Offline</h2>\n    <p class=\"intro-text\">O sistema de monitoramento detectou que o seguinte dispositivo perdeu a conexão:</p>\n    <div class=\"details-box\">\n      <ul class=\"details-list\">\n        <li class=\"list-item\"><strong>Nome do Dispositivo:</strong> {{ $json.device_name }}</li>\n        <li class=\"list-item list-item-divider\"><strong>Status Atual:</strong> <span class=\"status-offline\">OFFLINE</span></li>\n      </ul>\n    </div>\n  </div>\n</body>\n</html>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [272, 0],
+      "id": "39410d2d-e2e1-446b-902f-5d2857123311",
+      "name": "Cria as variaveis para o e-mail",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fromEmail": "{{SENDER_EMAIL}}",
+        "toEmail": "{{RECIPIENT_EMAIL}}",
+        "subject": "={{ $json.tituloChamado }}",
+        "html": "={{ $json.descricaoChamado }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [528, 0],
+      "id": "2ba9a11d-df2a-483a-97cc-e25d2f651b2d",
+      "name": "Abre o chamado",
+      "webhookId": "4513bf4a-57a8-4c0f-8b69-578355a59541",
+      "credentials": {
+        "smtp": {
+          "id": "{{SMTP_CREDENTIAL_ID}}",
+          "name": "{{SMTP_CREDENTIAL_NAME}}"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [[{"node": "Cria as variaveis para o e-mail", "type": "main", "index": 0}]]
+    },
+    "Cria as variaveis para o e-mail": {
+      "main": [[{"node": "Abre o chamado", "type": "main", "index": 0}]]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "{{N8N_INSTANCE_ID}}"
+  }
+}

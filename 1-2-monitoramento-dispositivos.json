@@ -1,0 +1,648 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [-2576, -128],
+      "id": "299acbb8-5c15-4e77-bcc5-5a2765a227c2",
+      "name": "Separa por Device",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "https://api.ui.com/v1/hosts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "{{UNIFI_API_KEY}}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-2736, -128],
+      "id": "312521da-065c-4cd2-8295-4d0d26009224",
+      "name": "Requisição API",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6f45a782-a142-4053-9f08-bda5a31c461f",
+              "leftValue": "={{ $json.reportedState.state }}",
+              "rightValue": "disconnected",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-2400, -128],
+      "id": "d017a53f-25bb-4dc9-bc0a-1f87617fc7a7",
+      "name": "Filtra_Desconectados",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a451ffd5-2df1-4bfd-8b6e-159d54673ed4",
+              "leftValue": "={{ $items(\"Get many rows\").length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "74fdfd07-82e1-4018-a643-53cd35912c90",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "disconnected",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-1520, -496],
+      "id": "2c6ef165-3dc5-4f3a-88fa-44acb868608d",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me1",
+      "typeVersion": 1,
+      "position": [-1216, 144],
+      "id": "45d9d4cb-2806-4736-810e-d50d54e82154"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [-1872, 64],
+      "id": "1a109d48-9d2b-4cf6-b546-455626c1946e",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d91038de-080c-470c-8781-c8dd7361760a",
+              "leftValue": "={{ $items(\"Get many rows1\").length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-1440, 128],
+      "id": "e85505f2-a1ac-49c3-b4f3-e3828b150b0e",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [-2032, 672],
+      "id": "539fc007-47c3-4f5a-9b8c-b28bcc08eec1",
+      "name": "Separa por Device1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "https://api.ui.com/v1/hosts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "{{UNIFI_API_KEY}}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-2192, 672],
+      "id": "99bd65b8-8186-480c-bceb-2a061c43470c",
+      "name": "Requisição API1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [-1856, 672],
+      "id": "d151139b-972f-48e5-bf16-8bd944c07204",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [-1616, 768],
+      "id": "53ca5dd0-73f1-4130-91b3-1ab49e17d148"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-2704, 416],
+      "id": "75faa069-eba1-48ff-865f-e0e8550e576e",
+      "name": "Trigger de recriação"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-2928, -128],
+      "id": "3e7c8ff3-c8f5-4546-8641-f06847da1d72",
+      "name": "Trigger de atualização"
+    },
+    {
+      "parameters": {
+        "content": "Este estágio é a fonte de dados para todas as ações. Se a API falhar, o monitoramento é interrompido.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTrigger de atualização - Inicia o fluxo de forma automática e recorrente\n\nRequisição API - Executa uma chamada GET para a API para buscar a lista completa de dispositivos.\n\nSepara por Device - Pega a resposta da API e a divide, criando um item de trabalho para cada dispositivo.\n\nFiltra Desconectados - Analisa cada item e verifica se o campo status é igual a \"desconectado\". Ele possui \nduas saídas: true e false.\n\n",
+        "height": 400,
+        "width": 800,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-2976, -192],
+      "typeVersion": 1,
+      "id": "451f34c7-ee74-4617-9a71-4709651c2e0a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "A lógica do If é crucial para evitar o envio de múltiplos alertas para o mesmo problema.\n\n\n\n\n\n\n\n\n\n\n\n\n\nLoop Over Items 1 - Inicia um loop que executa as etapas seguintes para cada um dos dispositivos que saíram pela porta true do nó Filtra_Desconectados.\n\nGet a row - Usando um identificador do dispositivo (ex: device_id), busca a linha correspondente a ele em uma base de dados (planilha ou banco).\n\nIf (Condição) - Compara um campo da base de dados (ex: alerta_enviado) para verificar se ele é false ou se o último alerta foi enviado há muito tempo.\n\nUpdate a row - Se a condição do If for verdadeira, este nó atualiza a linha do dispositivo na base de dados. Ele pode, por exemplo, mudar o campo alerta_enviado para true e registrar a data/hora do alerta.\n\nCall '[2/2] Tratar Alerta...' - Aciona um segundo fluxo de trabalho (um \"sub-fluxo\") através de um webhook, passando as informações do dispositivo desconectado.\n\n",
+        "height": 464,
+        "width": 1440,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-2064, -576],
+      "id": "4f421101-b16c-4547-a080-45c1f6f7e959",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "O nó Replace Me1 é um placeholder para uma funcionalidade que ainda será implementada.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLoop Over Items 2 - Assim como o primeiro loop, itera sobre a mesma lista de dispositivos desconectados.\n\nUpdate a row1 / Get a row1 / If2 - Sequência de nós para executar uma lógica diferente. Pode ser para registrar o dispositivo em outro sistema, calcular o tempo de inatividade, etc.\n\nReplace Me1 - Este é um nó vazio, um marcador visual.\n\n\n\n",
+        "height": 528,
+        "width": 880,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-1936, -64],
+      "id": "d6aff455-3d0f-495f-b980-d35897bf03c4",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Trigger de recriação - Inicia o fluxo de forma automática em um horário agendado, tipicamente uma vez por dia (ex: de madrugada).\n\nDelete a row - Executa uma operação para apagar todos os registros da tabela ou planilha de dispositivos.\n\n",
+        "height": 304,
+        "width": 704,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-2752, 272],
+      "id": "c8c3fabf-8786-4250-bbc2-a986c6311d7c",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRequisição API 1 - Executa uma chamada GET\npara a mesma API do primeiro fluxo \n\nSepara por Device 1 - Pega a resposta da API e a \ndivide, criando um item de trabalho para cada \ndispositivo na lista.\n\nLoop Over Items - Inicia um loop que executa a etapa seguinte para cada um dos dispositivos retornados pela API.\n\nCreate a row 3 - Para cada dispositivo no loop, este nó insere uma nova linha na base de dados, preenchendo as colunas com as informações do dispositivo (ID, nome, status inicial, etc.).\n\nReplace Me - Este é um nó vazio, um marcador visual.\n\n\n\n\n",
+        "height": 528,
+        "width": 848,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-2240, 592],
+      "id": "a4f1ac33-c07c-436e-8d7b-a59a4ba07489",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "rowId": "={{ $json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "{{FIELD_ID_STATUS}}",
+              "fieldValue": "=connected"
+            },
+            {
+              "fieldId": "{{FIELD_ID_LAST_SEEN}}",
+              "fieldValue": "={{ new Date() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-1648, -16],
+      "id": "66af301d-f3df-4bbc-aee9-9aadba371263",
+      "name": "Update a row2",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "{{FIELD_ID_DEVICE_ID}}",
+              "fieldValue": "={{ $json.id }}"
+            },
+            {
+              "fieldId": "{{FIELD_ID_STATUS}}",
+              "fieldValue": "connected"
+            },
+            {
+              "fieldId": "{{FIELD_ID_HOSTNAME}}",
+              "fieldValue": "={{ $json.reportedState.hostname }}"
+            },
+            {
+              "fieldId": "{{FIELD_ID_LAST_SEEN}}",
+              "fieldValue": "={{ new Date() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-1616, 608],
+      "id": "158905e3-47a1-4b3d-ae86-5b3225fa2d6e",
+      "name": "Create a row",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "rowId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-2240, 384],
+      "id": "9d65d423-8040-4f04-b0ee-bcf8ccaffbea",
+      "name": "Delete a row1",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "rowId": "={{ $json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "{{FIELD_ID_STATUS}}",
+              "fieldValue": "disconnected"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-1232, -512],
+      "id": "d2f0bece-e12e-4190-aeb7-3ff7e4c56d8a",
+      "name": "Update a row3",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": "{{FIELD_ID_DEVICE_ID}}",
+                "value": "={{ $json.id }} "
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-1728, -496],
+      "id": "5be0de3e-b9fe-4323-837b-8b2ed4fcee23",
+      "name": "Get many rows",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": "{{FIELD_ID_DEVICE_ID}}",
+                "value": "={{ $json.id }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-1648, 128],
+      "id": "03549afc-0f07-40e2-8e7d-e5a313e0ee1c",
+      "name": "Get many rows1",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "databaseId": "{{BASEROW_DATABASE_ID}}",
+        "tableId": "{{BASEROW_TABLE_ID}}",
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [-2416, 384],
+      "id": "101313e0-9c76-4cd7-9165-9a22122e6050",
+      "name": "Get many rows2",
+      "credentials": {
+        "baserowApi": {
+          "id": "{{BASEROW_CREDENTIAL_ID}}",
+          "name": "{{BASEROW_CREDENTIAL_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [-1984, -512],
+      "id": "566c3158-ba9a-4d08-a532-39b65d32a1b8",
+      "name": "Loop Over Items1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "{{SUBWORKFLOW_ID}}",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/{{SUBWORKFLOW_ID}}",
+          "cachedResultName": "[2/2] Tratar Alerta de Dispositivo"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "device_id": "={{ $json.cgu_identificador }}",
+            "device_name": "={{ $json.cgu_identificador_nome }}",
+            "device_state": "={{ $json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "device_id",
+              "displayName": "device_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "device_name",
+              "displayName": "device_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "device_state",
+              "displayName": "device_state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [-912, -512],
+      "id": "65fa4dc3-0315-40d1-96b8-15b0814a2cac",
+      "name": "Call '[2/2] Tratar Alerta de Dispositivo'"
+    }
+  ],
+  "connections": {
+    "Separa por Device": {
+      "main": [[{"node": "Filtra_Desconectados", "type": "main", "index": 0}]]
+    },
+    "Requisição API": {
+      "main": [[{"node": "Separa por Device", "type": "main", "index": 0}]]
+    },
+    "Filtra_Desconectados": {
+      "main": [
+        [{"node": "Loop Over Items1", "type": "main", "index": 0}],
+        [{"node": "Loop Over Items2", "type": "main", "index": 0}]
+      ]
+    },
+    "If": {
+      "main": [[{"node": "Update a row3", "type": "main", "index": 0}]]
+    },
+    "Replace Me1": {
+      "main": [[{"node": "Loop Over Items2", "type": "main", "index": 0}]]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [{"node": "Update a row2", "type": "main", "index": 0}],
+        [{"node": "Get many rows1", "type": "main", "index": 0}]
+      ]
+    },
+    "If2": {
+      "main": [[], [{"node": "Replace Me1", "type": "main", "index": 0}]]
+    },
+    "Separa por Device1": {
+      "main": [[{"node": "Loop Over Items", "type": "main", "index": 0}]]
+    },
+    "Requisição API1": {
+      "main": [[{"node": "Separa por Device1", "type": "main", "index": 0}]]
+    },
+    "Loop Over Items": {
+      "main": [
+        [{"node": "Create a row", "type": "main", "index": 0}],
+        [{"node": "Replace Me", "type": "main", "index": 0}]
+      ]
+    },
+    "Replace Me": {
+      "main": [[{"node": "Loop Over Items", "type": "main", "index": 0}]]
+    },
+    "Trigger de recriação": {
+      "main": [[
+        {"node": "Requisição API1", "type": "main", "index": 0},
+        {"node": "Get many rows2", "type": "main", "index": 0}
+      ]]
+    },
+    "Trigger de atualização": {
+      "main": [[{"node": "Requisição API", "type": "main", "index": 0}]]
+    },
+    "Update a row2": {"main": [[]]},
+    "Create a row": {"main": [[]]},
+    "Delete a row1": {"main": [[]]},
+    "Update a row3": {
+      "main": [[{"node": "Call '[2/2] Tratar Alerta de Dispositivo'", "type": "main", "index": 0}]]
+    },
+    "Get many rows": {
+      "main": [[{"node": "If", "type": "main", "index": 0}]]
+    },
+    "Get many rows1": {
+      "main": [[{"node": "If2", "type": "main", "index": 0}]]
+    },
+    "Get many rows2": {
+      "main": [[{"node": "Delete a row1", "type": "main", "index": 0}]]
+    },
+    "Loop Over Items1": {
+      "main": [[], [{"node": "Get many rows", "type": "main", "index": 0}]]
+    },
+    "Call '[2/2] Tratar Alerta de Dispositivo'": {
+      "main": [[{"node": "Loop Over Items1", "type": "main", "index": 0}]]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "{{N8N_INSTANCE_ID}}"
+  }
+}
